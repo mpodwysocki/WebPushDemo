@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using WebPushDemo.Models;
+using Microsoft.Extensions.Hosting;
 
 namespace WebPushDemo
 {
@@ -23,7 +20,7 @@ namespace WebPushDemo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddRazorPages();
             
             services.AddDbContext<WebPushDemoContext>(options =>
                 options.UseSqlite("Data Source=Data/WebPushDb.db"));
@@ -32,7 +29,7 @@ namespace WebPushDemo
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -44,25 +41,22 @@ namespace WebPushDemo
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseRouting();
             app.UseStaticFiles();
 
             if (Configuration.GetSection("VapidKeys")["PublicKey"].Length == 0 || Configuration.GetSection("VapidKeys")["PrivateKey"].Length == 0)
             {
-                app.UseMvc(routes =>
+                app.UseEndpoints(endpoints =>
                 {
-                    routes.MapRoute(
-                        name: "default",
-                        template: "{controller=WebPush}/{action=GenerateKeys}/{id?}");
+                    endpoints.MapControllerRoute("default", "{controller=WebPush}/{action=GenerateKeys}/{id?}");
                 });
 
                 return;
             }
 
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Devices}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("default", "{controller=Devices}/{action=Index}/{id?}");
             });
         }
     }
