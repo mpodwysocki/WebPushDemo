@@ -11,7 +11,8 @@
     "WebPushDemo": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:50232/"
+      "applicationUrl": "http://localhost:50232/",
+      "environmentVariables": {}
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -19,8 +20,7 @@
       "launchUrl": "http://localhost:50302/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "use64Bit": false
+      }
     }
   }
 }

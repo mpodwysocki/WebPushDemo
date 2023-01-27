@@ -1,10 +1,15 @@
-﻿$(document).ready(function () {
-    $("#Title, #Message").keyup(function () {
-        var payloadObject = {
-            title: $("#Title").val(),
-            message: $("#Message").val()
-        };
+﻿document.addEventListener("DOMContentLoaded", () => {
+  const handler = () => {
+    const payload = document.getElementById("Payload");
+    const title = document.getElementById("Title");
+    const message = document.getElementById("Message");
+    const payloadObject = {
+      title: title.value,
+      message: message.value
+    };
+    payload.value = JSON.stringify(payloadObject);
+  };
 
-        $("#Payload").val(JSON.stringify(payloadObject));
-    });
+  document.getElementById("Title").addEventListener("keyup", handler);
+  document.getElementById("Message").addEventListener("keyup", handler);
 });
