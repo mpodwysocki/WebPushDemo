@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using WebPush;
 using WebPushDemo.Models;
+using WebPushDemo.Utilities;
 
 namespace WebPushDemo.Controllers
 {
@@ -41,14 +39,17 @@ namespace WebPushDemo.Controllers
             var vapidDetails = new VapidDetails("mailto:example@example.com", vapidPublicKey, vapidPrivateKey);
 
             var webPushClient = new WebPushClient();
-            webPushClient.SendNotification(pushSubscription, payload, vapidDetails);
+            var response = await webPushClient.SendNotification(pushSubscription, payload, vapidDetails);
+            Console.WriteLine($"Status Code: {response.PlatformStatusCode}");
+            Console.WriteLine($"Error Reason: {response.PlatformErrorReason}");
+
 
             return View();
         }
 
         public IActionResult GenerateKeys()
         {
-            var keys = VapidHelper.GenerateVapidKeys();
+            var keys = VapidUtilities.GenerateVapidKeys();
             ViewBag.PublicKey = keys.PublicKey;
             ViewBag.PrivateKey = keys.PrivateKey;
             return View();

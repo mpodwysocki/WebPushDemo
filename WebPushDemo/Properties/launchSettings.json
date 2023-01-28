@@ -12,7 +12,9 @@
       "commandName": "Project",
       "launchBrowser": true,
       "applicationUrl": "http://localhost:50232/",
-      "environmentVariables": {}
+      "environmentVariables": {
+        "DYLD_LIBRARY_PATH": "/opt/homebrew/opt/openssl@3/lib"
+      }
     },
     "IIS Express": {
       "commandName": "IISExpress",

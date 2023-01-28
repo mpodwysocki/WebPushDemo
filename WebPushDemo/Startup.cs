@@ -25,7 +25,7 @@ namespace WebPushDemo
             services.AddDbContext<WebPushDemoContext>(options =>
                 options.UseSqlite("Data Source=Data/WebPushDb.db"));
 
-            services.AddSingleton<IConfiguration>(Configuration);
+            services.AddSingleton(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
